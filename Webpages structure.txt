@@ -1,0 +1,37 @@
+Main page :
+Shows Carrers (only STEM for now)
+if you click on a carrer it will show the topics organized by domain
+ej: Civil Enginnering 
+	- Physics
+		- Waves
+Clicking on the waves page will show the full structured course 
+
+Course Structure Template
+📘 Study Materials per Course
+✅ Prerequisites
+(Example: Calculus I, Introductory Physics)
+
+📚 Core Bibliography
+1 theoretical book (mathematics)
+*(e.g., "Mathematical Methods for Physics and Engineering")
+
+1 theoretical book (physics or related field)
+*(e.g., "Fundamentals of Physics" – Halliday & Resnick)
+
+1 book with solved exercises
+*(e.g., "Schaum’s Outline" series or national university compilations)
+
+🧪 Optional (Highly Recommended if Available)
+High-quality videos explaining key concepts
+
+Experiments (virtual or practical) related to the topic
+
+
+🧭 Optimized Topic Route (on the platform or page)
+Ordered, minimal and efficient conceptual sequence
+
+Clear progression from basic to applied
+
+Linked resources per sub-topic
+(e.g., for “Gauss’s Law” → Theory summary + video + solved problems)
+
