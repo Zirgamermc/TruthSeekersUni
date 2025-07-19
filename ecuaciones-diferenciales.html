@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecuaciones Diferenciales | TruthSeekers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #0f3460;
+      --accent: #e94560;
+      --light: #16213e;
+      --dark: #0d0d1a;
+      --success: #4ade80;
+      --warning: #fcd34d;
+      --info: #60a5fa;
+      --math: #9d4edd;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .logo-icon {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    nav a:hover, nav a.active {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .hero {
+      background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.8)), 
+                  url('https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=1920') center/cover;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      color: var(--text-primary);
+    }
+    
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto 1rem;
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+    
+    .breadcrumb a {
+      color: var(--info);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .breadcrumb a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 992px) {
+      .container {
+        grid-template-columns: 1fr 350px;
+      }
+    }
+    
+    .main-content {
+      background: rgba(30, 30, 46, 0.7);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--secondary);
+    }
+    
+    .sidebar {
+      background: rgba(30, 30, 46, 0.7);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      align-self: start;
+      position: sticky;
+      top: 100px;
+      border: 1px solid var(--secondary);
+    }
+    
+    .section-title {
+      color: var(--text-primary);
+      border-bottom: 3px solid var(--math);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      background: var(--math);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .resource-card {
+      background: rgba(35, 35, 55, 0.7);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      border-left: 4px solid var(--math);
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      background: rgba(35, 35, 55, 0.9);
+    }
+    
+    .resource-card h3 {
+      color: var(--math);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .resource-card ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .resource-card li {
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    
+    .btn {
+      display: inline-block;
+      background: var(--math);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: #7b2cbf;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--math);
+      color: var(--math);
+    }
+    
+    .btn-outline:hover {
+      background: var(--math);
+      color: white;
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .level-card {
+      background: rgba(35, 35, 55, 0.7);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      border: 1px solid var(--secondary);
+    }
+    
+    .level-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      background: rgba(35, 35, 55, 0.9);
+    }
+    
+    .level-header {
+      background: linear-gradient(135deg, var(--math) 0%, #7b2cbf 100%);
+      color: white;
+      padding: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .level-header h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .level-content {
+      padding: 1.5rem;
+    }
+    
+    .topic-list {
+      list-style: none;
+    }
+    
+    .topic-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--secondary);
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .topic-item:last-child {
+      border-bottom: none;
+    }
+    
+    .topic-number {
+      background: var(--math);
+      color: white;
+      min-width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .topic-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    
+    .topic-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    
+    .sidebar-card {
+      background: rgba(35, 35, 55, 0.7);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--secondary);
+    }
+    
+    .sidebar-card h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid var(--math);
+      padding-bottom: 0.5rem;
+    }
+    
+    .sidebar-card ul {
+      list-style: none;
+    }
+    
+    .sidebar-card li {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .sidebar-card li:last-child {
+      border-bottom: none;
+    }
+    
+    .sidebar-card a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: var(--transition);
+      display: block;
+    }
+    
+    .sidebar-card a:hover {
+      color: var(--math);
+      padding-left: 5px;
+    }
+    
+    .progress-container {
+      margin: 1.5rem 0;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background: var(--secondary);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--math);
+      width: 25%;
+      border-radius: 5px;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .stat-card {
+      background: var(--math);
+      color: white;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-card .number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    
+    .stat-card .label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 2rem 1rem;
+      text-align: center;
+      border-top: 1px solid var(--secondary);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .university-motto {
+      font-style: italic;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-graduation-cap logo-icon"></i>
+        <h1>TruthSeekers</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+          <li><a href="#" class="active"><i class="fas fa-map"></i> Mapa</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Carreras</a></li>
+          <li><a href="#"><i class="fas fa-sitemap"></i> Nodo Raíz</a></li>
+          <li><a href="#"><i class="fas fa-tools"></i> Recursos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Ecuaciones Diferenciales</h1>
+      <p>Explora el fascinante mundo de las ecuaciones diferenciales, desde fundamentos hasta aplicaciones avanzadas</p>
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Progreso del curso</span>
+          <span>25%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="#">Inicio</a> / <a href="#">Carreras</a> / <a href="mapa.html">Ingeniería Informática</a> / <span>Ecuaciones Diferenciales</span>
+  </div>
+
+  <div class="container">
+    <div class="main-content">
+      <div class="section-title">
+        <i class="fas fa-book"></i>
+        <h2>Recursos Bibliográficos</h2>
+      </div>
+      
+      <div class="resource-card">
+        <h3><i class="fas fa-book-open"></i> Libros de Texto</h3>
+        <ul>
+          <li><strong>Tenenbaum, M., & Pollard, H. (1963).</strong> Ordinary Differential Equations. Dover Publications.</li>
+          <li><strong>Dennis G. Zill</strong> - "Ecuaciones Diferenciales con Aplicaciones de Modelado"</li>
+          <li><strong>Morris Tenenbaum y Harry Pollard</strong> - "Ecuaciones Diferenciales. Con aplicaciones y notas históricas" - Editorial Limusa/McGraw-Hill</li>
+        </ul>
+        <p>Estos libros cubren desde los fundamentos hasta temas avanzados, con numerosos ejemplos y aplicaciones prácticas.</p>
+      </div>
+      
+      <div class="resource-card">
+        <h3><i class="fab fa-youtube"></i> Recursos Visuales</h3>
+        <p>La serie de 3Blue1Brown sobre ecuaciones diferenciales ofrece una comprensión intuitiva de los conceptos fundamentales:</p>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/p_di4Zn4wz4" title="Ecuaciones Diferenciales por 3Blue1Brown" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNPOjrT6KVlfJuKtYTftqH6" class="btn" target="_blank">
+          <i class="fab fa-youtube"></i> Ver serie completa
+        </a>
+      </div>
+      
+      <div class="section-title">
+        <i class="fas fa-layer-group"></i>
+        <h2>Temario por Niveles</h2>
+      </div>
+      
+      <!-- Nivel 1 -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-calculator"></i> Nivel 1: Fundamentos y Ecuaciones Simples</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Conceptos Básicos</div>
+                <div class="topic-desc">Definición y origen de las ecuaciones diferenciales (Lección 1)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Conjuntos y Funciones</div>
+                <div class="topic-desc">Funciones y funciones implícitas (Lección 2)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Ecuaciones Diferenciales Ordinarias</div>
+                <div class="topic-desc">Definición de EDO, orden y solución (Lección 3)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Soluciones</div>
+                <div class="topic-desc">Soluciones generales y particulares, condiciones iniciales (Lección 4)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">5</div>
+              <div>
+                <div class="topic-title">Campos de Dirección</div>
+                <div class="topic-desc">Campos de dirección e isoclinas (Lección 5)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">6</div>
+              <div>
+                <div class="topic-title">Ecuaciones Separables</div>
+                <div class="topic-desc">Diferenciales de funciones (Lección 6A-B). Ecuaciones con variables separables (Lección 6C)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">7</div>
+              <div>
+                <div class="topic-title">Ecuaciones Homogéneas</div>
+                <div class="topic-desc">Funciones homogéneas (Lección 7A). Ecuaciones con coeficientes homogéneos (Lección 7B)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 2 -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-chart-line"></i> Nivel 2: Técnicas de Solución Avanzadas</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Ecuaciones Lineales</div>
+                <div class="topic-desc">Ecuaciones con coeficientes lineales (Lección 8B-C)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Casos Especiales</div>
+                <div class="topic-desc">Líneas paralelas o coincidentes (Lección 8D)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Ecuaciones Exactas</div>
+                <div class="topic-desc">Ecuaciones exactas y factores integrantes (Lecciones 9-10)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Ecuaciones Lineales de Primer Orden</div>
+                <div class="topic-desc">Forma estándar y método de solución (Lección 11)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">5</div>
+              <div>
+                <div class="topic-title">Ecuación de Bernoulli</div>
+                <div class="topic-desc">(Lección 11D)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">6</div>
+              <div>
+                <div class="topic-title">Métodos Misceláneos</div>
+                <div class="topic-desc">Sustituciones (Lección 12)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">7</div>
+              <div>
+                <div class="topic-title">Aplicaciones Geométricas</div>
+                <div class="topic-desc">Problemas geométricos (Lección 13)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">8</div>
+              <div>
+                <div class="topic-title">Trayectorias</div>
+                <div class="topic-desc">Trayectorias ortogonales e isogonales (Lección 14)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">9</div>
+              <div>
+                <div class="topic-title">Aplicaciones Físicas</div>
+                <div class="topic-desc">Problemas de dilución, interés, temperatura y crecimiento (Lección 15)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 3 -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-cogs"></i> Nivel 3: Ecuaciones de Orden Superior y Sistemas</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Ecuaciones Lineales de Orden Superior</div>
+                <div class="topic-desc">Estructura general y soluciones (Lección 19)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Coeficientes Constantes</div>
+                <div class="topic-desc">Ecuaciones homogéneas con coeficientes constantes (Lección 20)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Coeficientes Indeterminados</div>
+                <div class="topic-desc">Método de coeficientes indeterminados (Lección 21A)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Variación de Parámetros</div>
+                <div class="topic-desc">(Lección 22)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">5</div>
+              <div>
+                <div class="topic-title">Operadores Diferenciales</div>
+                <div class="topic-desc">Operadores diferenciales y polinomiales (Lección 24)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">6</div>
+              <div>
+                <div class="topic-title">Transformada de Laplace</div>
+                <div class="topic-desc">(Lección 27). Solución de ecuaciones usando Laplace (Lección 27C)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">7</div>
+              <div>
+                <div class="topic-title">Sistemas de Ecuaciones</div>
+                <div class="topic-desc">Solución de sistemas lineales (Lección 31)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">8</div>
+              <div>
+                <div class="topic-title">Sistemas No Lineales</div>
+                <div class="topic-desc">Linealización de sistemas no lineales (Lección 32)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">9</div>
+              <div>
+                <div class="topic-title">Aplicaciones</div>
+                <div class="topic-desc">Aplicaciones mecánicas y eléctricas (Lección 33)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 4 -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-rocket"></i> Nivel 4: Temas Avanzados y Aplicaciones</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Ecuaciones No Lineales</div>
+                <div class="topic-desc">Reducción a sistemas (Lección 35)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Problemas Especiales</div>
+                <div class="topic-desc">Problemas de cables, fuerzas centrales y persecución (Lección 36)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Soluciones en Series</div>
+                <div class="topic-desc">Soluciones en series de potencias (Lección 37)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Método de Frobenius</div>
+                <div class="topic-desc">Para puntos singulares (Lección 40)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">5</div>
+              <div>
+                <div class="topic-title">Ecuaciones Especiales</div>
+                <div class="topic-desc">Ecuaciones de Legendre, Bessel y Laguerre (Lecciones 41-43)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">6</div>
+              <div>
+                <div class="topic-title">Métodos Numéricos</div>
+                <div class="topic-desc">Aproximación poligonal y Taylor (Lecciones 44-46)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">7</div>
+              <div>
+                <div class="topic-title">Runge-Kutta</div>
+                <div class="topic-desc">Métodos de Runge-Kutta y diferencias finitas (Lecciones 47-48)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">8</div>
+              <div>
+                <div class="topic-title">Interpolación</div>
+                <div class="topic-desc">Interpolación y reglas de integración (Lecciones 49-50)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">9</div>
+              <div>
+                <div class="topic-title">Teoremas</div>
+                <div class="topic-desc">Teorema de Picard (Lección 57). Condiciones de Lipschitz y unicidad (Lección 58)</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">10</div>
+              <div>
+                <div class="topic-title">Puntos Singulares</div>
+                <div class="topic-desc">Puntos ordinarios y singulares (Lección 59)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section-title">
+        <i class="fas fa-tasks"></i>
+        <h2>Actividades de Aprendizaje</h2>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+        <div style="background: rgba(33, 150, 243, 0.15); border-radius: 10px; padding: 1.5rem; text-align: center; border: 1px solid rgba(33, 150, 243, 0.3);">
+          <i class="fas fa-file-alt" style="font-size: 2.5rem; color: #2196f3; margin-bottom: 1rem;"></i>
+          <h3>Ejercicios Prácticos</h3>
+          <p>Problemas resueltos y propuestos para cada tema</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver ejercicios</a>
+        </div>
+        
+        <div style="background: rgba(76, 175, 80, 0.15); border-radius: 10px; padding: 1.5rem; text-align: center; border: 1px solid rgba(76, 175, 80, 0.3);">
+          <i class="fas fa-flask" style="font-size: 2.5rem; color: #4caf50; margin-bottom: 1rem;"></i>
+          <h3>Laboratorios</h3>
+          <p>Simulaciones y experimentos con ecuaciones diferenciales</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Explorar laboratorios</a>
+        </div>
+        
+        <div style="background: rgba(156, 39, 176, 0.15); border-radius: 10px; padding: 1.5rem; text-align: center; border: 1px solid rgba(156, 39, 176, 0.3);">
+          <i class="fas fa-project-diagram" style="font-size: 2.5rem; color: #9c27b0; margin-bottom: 1rem;"></i>
+          <h3>Proyectos</h3>
+          <p>Aplicaciones prácticas en física, ingeniería y biología</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver proyectos</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h3><i class="fas fa-road"></i> Ruta de Aprendizaje</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-play-circle"></i> Introducción a EDOs</a></li>
+          <li><a href="#"><i class="fas fa-calculator"></i> Ecuaciones Separables</a></li>
+          <li><a href="#"><i class="fas fa-chart-line"></i> Ecuaciones Homogéneas</a></li>
+          <li><a href="#"><i class="fas fa-bolt"></i> Ecuaciones Lineales</a></li>
+          <li><a href="#"><i class="fas fa-infinity"></i> Ecuaciones Exactas</a></li>
+          <li><a href="#"><i class="fas fa-cogs"></i> Ecuaciones de Orden Superior</a></li>
+          <li><a href="#"><i class="fas fa-wave-square"></i> Transformada de Laplace</a></li>
+          <li><a href="#"><i class="fas fa-project-diagram"></i> Sistemas de EDOs</a></li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-card">
+        <h3><i class="fas fa-download"></i> Recursos Descargables</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-file-pdf"></i> Fórmulas Esenciales</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Guía de Estudio</a></li>
+          <li><a href="#"><i class="fas fa-file-code"></i> Códigos de Ejemplo (Python)</a></li>
+          <li><a href="#"><i class="fas fa-file-alt"></i> Exámenes Pasados</a></li>
+          <li><a href="#"><i class="fas fa-chart-bar"></i> Diagramas Conceptuales</a></li>
+        </ul>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number">72</div>
+          <div class="label">Lecciones</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">240</div>
+          <div class="label">Ejercicios</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">16</div>
+          <div class="label">Laboratorios</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">8</div>
+          <div class="label">Proyectos</div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="#" class="btn" style="width: 100%;">
+          <i class="fas fa-download"></i> Descargar Todo el Material
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>TruthSeekers © 2025 — Camino autodidacta sin jerarquías</p>
+      <p class="university-motto">"Las ecuaciones diferenciales son el lenguaje con el que Dios ha escrito el universo" - Galileo Galilei</p>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle para expandir/contraer los niveles
+    document.querySelectorAll('.level-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.fa-chevron-down');
+        
+        if (content.style.display === 'none' || !content.style.display) {
+          content.style.display = 'block';
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+        } else {
+          content.style.display = 'none';
+          icon.classList.remove('fa-chevron-up');
+          icon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+    
+    // Mostrar el primer nivel expandido por defecto
+    document.querySelector('.level-content').style.display = 'block';
+    document.querySelector('.level-header .fa-chevron-down').classList.replace('fa-chevron-down', 'fa-chevron-up');
+  </script>
+</body>
+</html>

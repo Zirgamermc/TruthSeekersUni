@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Física de Ondas | TruthSeekers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #0f3460;
+      --accent: #e94560;
+      --light: #16213e;
+      --dark: #0d0d1a;
+      --success: #4ade80;
+      --warning: #fcd34d;
+      --info: #60a5fa;
+      --math: #9d4edd;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .logo-icon {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    nav a:hover, nav a.active {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .hero {
+      background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.8)), 
+                  url('https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1920') center/cover;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      color: white;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      color: var(--text-primary);
+    }
+    
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto 1rem;
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+    
+    .breadcrumb a {
+      color: var(--info);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .breadcrumb a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 992px) {
+      .container {
+        grid-template-columns: 1fr 350px;
+      }
+    }
+    
+    .main-content {
+      background: rgba(26, 26, 46, 0.7);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--secondary);
+    }
+    
+    .sidebar {
+      background: rgba(26, 26, 46, 0.7);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      align-self: start;
+      position: sticky;
+      top: 100px;
+      border: 1px solid var(--secondary);
+    }
+    
+    .section-title {
+      color: var(--accent);
+      border-bottom: 3px solid var(--math);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      background: var(--math);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .resource-card {
+      background: rgba(30, 30, 46, 0.5);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      border-left: 4px solid var(--math);
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      background: rgba(30, 30, 46, 0.8);
+    }
+    
+    .resource-card h3 {
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .resource-card ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .resource-card li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: var(--math);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: #7b2cbf;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--math);
+      color: var(--math);
+    }
+    
+    .btn-outline:hover {
+      background: var(--math);
+      color: white;
+    }
+    
+    .level-card {
+      background: rgba(30, 30, 46, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      border: 1px solid var(--secondary);
+    }
+    
+    .level-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      background: rgba(30, 30, 46, 0.8);
+    }
+    
+    .level-header {
+      background: linear-gradient(135deg, var(--math) 0%, #7b2cbf 100%);
+      color: white;
+      padding: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .level-header h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .level-content {
+      padding: 1.5rem;
+    }
+    
+    .topic-list {
+      list-style: none;
+    }
+    
+    .topic-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--secondary);
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .topic-item:last-child {
+      border-bottom: none;
+    }
+    
+    .topic-number {
+      background: var(--math);
+      color: white;
+      min-width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .topic-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    
+    .topic-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    
+    .sidebar-card {
+      background: rgba(30, 30, 46, 0.5);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--secondary);
+    }
+    
+    .sidebar-card h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid var(--math);
+      padding-bottom: 0.5rem;
+    }
+    
+    .sidebar-card ul {
+      list-style: none;
+    }
+    
+    .sidebar-card li {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .sidebar-card li:last-child {
+      border-bottom: none;
+    }
+    
+    .sidebar-card a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: var(--transition);
+      display: block;
+    }
+    
+    .sidebar-card a:hover {
+      color: var(--accent);
+      padding-left: 5px;
+    }
+    
+    .progress-container {
+      margin: 1.5rem 0;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background: var(--secondary);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--math);
+      width: 45%;
+      border-radius: 5px;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .stat-card {
+      background: var(--math);
+      color: white;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-card .number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    
+    .stat-card .label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: var(--text-primary);
+      padding: 2rem 1rem;
+      text-align: center;
+      border-top: 1px solid var(--secondary);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .university-motto {
+      font-style: italic;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+    }
+    
+    .wave-animation {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" fill="%23e9456040"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" /></svg>');
+      background-size: 1200px 100px;
+      animation: wave 12s linear infinite;
+    }
+    
+    @keyframes wave {
+      0% { background-position-x: 0; }
+      100% { background-position-x: 1200px; }
+    }
+    
+    .activity-card {
+      background: rgba(30, 30, 46, 0.5);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid var(--secondary);
+    }
+    
+    .activity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      background: rgba(30, 30, 46, 0.8);
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-wave-square logo-icon"></i>
+        <h1>TruthSeekers</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+          <li><a href="#" class="active"><i class="fas fa-map"></i> Mapa</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Carreras</a></li>
+          <li><a href="#"><i class="fas fa-sitemap"></i> Nodo Raíz</a></li>
+          <li><a href="#"><i class="fas fa-tools"></i> Recursos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="wave-animation"></div>
+    <div class="hero-content">
+      <h1>Ondas y su Aplicación Física</h1>
+      <p>Explora el fascinante mundo de las ondas, desde fundamentos universales hasta aplicaciones avanzadas</p>
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Progreso del curso</span>
+          <span>45%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="#">Inicio</a> / <a href="#">Carreras</a> / <a href="#">Física</a> / <span>Ondas</span>
+  </div>
+
+  <div class="container">
+    <div class="main-content">
+      <div class="section-title">
+        <i class="fas fa-book"></i>
+        <h2>Recursos Bibliográficos</h2>
+      </div>
+      
+      <div class="resource-card">
+        <h3><i class="fas fa-book-open"></i> Libros de Texto</h3>
+        <ul>
+          <li><strong>French, A. P. (1971).</strong> Vibrations and Waves. MIT Press.</li>
+          <li><strong>Crawford, F. S. (1968).</strong> Waves: Berkeley Physics Course, Vol. 3. McGraw-Hill.</li>
+          <li><strong>Pain, H. J. (2005).</strong> The Physics of Vibrations and Waves. Wiley.</li>
+        </ul>
+        <p>Estos textos ofrecen una introducción rigurosa a los principios de las ondas con aplicaciones prácticas en física e ingeniería.</p>
+      </div>
+      
+      <div class="resource-card">
+        <h3><i class="fas fa-chalkboard-teacher"></i> Recursos Didácticos</h3>
+        <p>Simulaciones interactivas de ondas para comprender fenómenos complejos:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+          <div style="background: rgba(30, 30, 46, 0.7); border-radius: 8px; padding: 1rem; text-align: center;">
+            <i class="fas fa-wave-square" style="font-size: 2rem; color: var(--math); margin-bottom: 0.5rem;"></i>
+            <h4>Simulador de Ondas Estacionarias</h4>
+            <a href="#" class="btn" style="margin-top: 0.5rem; width: 100%;">Explorar</a>
+          </div>
+          
+          <div style="background: rgba(30, 30, 46, 0.7); border-radius: 8px; padding: 1rem; text-align: center;">
+            <i class="fas fa-microphone-alt" style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;"></i>
+            <h4>Simulador de Efecto Doppler</h4>
+            <a href="#" class="btn" style="margin-top: 0.5rem; width: 100%;">Explorar</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-title">
+        <i class="fas fa-layer-group"></i>
+        <h2>Temario por Niveles</h2>
+      </div>
+      
+      <!-- Nivel 1: Fundamentos Universales -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-atom"></i> Nivel 1: Fundamentos Universales de las Ondas</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Naturaleza y Clasificación de Ondas</div>
+                <div class="topic-desc">Definiciones, ondas longitudinales vs transversales, parámetros fundamentales</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Ecuación de Onda en 1D</div>
+                <div class="topic-desc">Derivación desde principios de propagación, interpretación física</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Soluciones Armónicas y Energía Transportada</div>
+                <div class="topic-desc">Forma sinusoidal, intensidad, energía por unidad de área</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Principio de Superposición y Ondas Estacionarias</div>
+                <div class="topic-desc">Interferencia, nodos/antinodos, condiciones de frontera</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 2: Ondas Mecánicas Aplicadas -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-volume-up"></i> Nivel 2: Ondas Mecánicas Aplicadas</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Ondas Sonoras y su Medio</div>
+                <div class="topic-desc">Compresión y rarefacción, velocidad del sonido en distintos medios</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Intensidad, Nivel Sonoro y Umbrales Humanos</div>
+                <div class="topic-desc">Decibeles, sensibilidad auditiva, percepción logarítmica</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Efecto Doppler y Casos Prácticos</div>
+                <div class="topic-desc">Observadores móviles, fuentes móviles, aplicaciones en radar</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Resonancia Acústica y Cuerdas Vibrantes</div>
+                <div class="topic-desc">Condiciones en extremos, frecuencias naturales, instrumentos musicales</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 3: Ondas Electromagnéticas y Óptica -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-lightbulb"></i> Nivel 3: Ondas Electromagnéticas y Óptica</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Espectro Electromagnético y Naturaleza de la Luz</div>
+                <div class="topic-desc">De Maxwell al espectro completo: radio a rayos gamma</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Polarización y Aplicaciones</div>
+                <div class="topic-desc">Polarización lineal, circular, filtros y sensores</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Interferencia, Difracción y Patrón de Young</div>
+                <div class="topic-desc">Ondas coherentes, franjas de interferencia, difracción</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Índice de Refracción y Dispersión</div>
+                <div class="topic-desc">Ley de Snell, prismas, arco iris, variación con frecuencia</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Nivel 4: Aplicaciones Avanzadas -->
+      <div class="level-card">
+        <div class="level-header">
+          <h3><i class="fas fa-rocket"></i> Nivel 4: Aplicaciones Avanzadas y Transición Conceptual</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="level-content">
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div class="topic-number">1</div>
+              <div>
+                <div class="topic-title">Ondas de Choque y Cono de Mach</div>
+                <div class="topic-desc">Supersónicos, discontinuidades, aviación, dinámica de fluidos</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">2</div>
+              <div>
+                <div class="topic-title">Ondas en Medios No Homogéneos</div>
+                <div class="topic-desc">Medios estratificados, cristales, birefringencia</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">3</div>
+              <div>
+                <div class="topic-title">Aplicaciones Tecnológicas</div>
+                <div class="topic-desc">Radar, sonar, microondas, sísmica, ultrasonido médico</div>
+              </div>
+            </li>
+            <li class="topic-item">
+              <div class="topic-number">4</div>
+              <div>
+                <div class="topic-title">Transición a Electromagnetismo</div>
+                <div class="topic-desc">Campos oscilantes, propagación sin medio, introducción a Maxwell</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section-title">
+        <i class="fas fa-tasks"></i>
+        <h2>Actividades de Aprendizaje</h2>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+        <div class="activity-card">
+          <i class="fas fa-wave-square" style="font-size: 2.5rem; color: var(--info); margin-bottom: 1rem;"></i>
+          <h3>Laboratorio de Ondas Estacionarias</h3>
+          <p>Explora resonancias en cuerdas y tubos sonoros</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver laboratorio</a>
+        </div>
+        
+        <div class="activity-card">
+          <i class="fas fa-microphone-alt" style="font-size: 2.5rem; color: var(--success); margin-bottom: 1rem;"></i>
+          <h3>Simulador de Efecto Doppler</h3>
+          <p>Experimentos con fuentes móviles y observadores</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Explorar simulador</a>
+        </div>
+        
+        <div class="activity-card">
+          <i class="fas fa-satellite" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;"></i>
+          <h3>Proyecto: Diseño de Antena</h3>
+          <p>Aplicaciones de ondas electromagnéticas en telecomunicaciones</p>
+          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver proyecto</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h3><i class="fas fa-road"></i> Ruta de Aprendizaje</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-atom"></i> Fundamentos Universales</a></li>
+          <li><a href="#"><i class="fas fa-volume-up"></i> Ondas Mecánicas</a></li>
+          <li><a href="#"><i class="fas fa-lightbulb"></i> Ondas Electromagnéticas</a></li>
+          <li><a href="#"><i class="fas fa-rocket"></i> Aplicaciones Avanzadas</a></li>
+          <li><a href="#"><i class="fas fa-bolt"></i> Transición a Electromagnetismo</a></li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-card">
+        <h3><i class="fas fa-download"></i> Recursos Descargables</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-file-pdf"></i> Fórmulas Esenciales</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Guía de Estudio</a></li>
+          <li><a href="#"><i class="fas fa-file-code"></i> Simulaciones (Python)</a></li>
+          <li><a href="#"><i class="fas fa-file-alt"></i> Problemas Resueltos</a></li>
+          <li><a href="#"><i class="fas fa-wave-square"></i> Animaciones</a></li>
+        </ul>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number">16</div>
+          <div class="label">Lecciones</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">80</div>
+          <div class="label">Ejercicios</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">6</div>
+          <div class="label">Laboratorios</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">4</div>
+          <div class="label">Proyectos</div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="#" class="btn" style="width: 100%;">
+          <i class="fas fa-download"></i> Descargar Todo el Material
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>TruthSeekers © 2025 — Explorando las ondas del conocimiento</p>
+      <p class="university-motto">"El estudio de las ondas es el estudio del universo en movimiento"</p>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle para expandir/contraer los niveles
+    document.querySelectorAll('.level-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.fa-chevron-down');
+        
+        if (content.style.display === 'none' || !content.style.display) {
+          content.style.display = 'block';
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+        } else {
+          content.style.display = 'none';
+          icon.classList.remove('fa-chevron-up');
+          icon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+    
+    // Mostrar el primer nivel expandido por defecto
+    document.querySelector('.level-content').style.display = 'block';
+    document.querySelector('.level-header .fa-chevron-down').classList.replace('fa-chevron-down', 'fa-chevron-up');
+  </script>
+</body>
+</html>

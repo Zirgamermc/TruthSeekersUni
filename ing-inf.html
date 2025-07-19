@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Curricular - Ingeniería Informática | TruthSeekers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #0f3460;
+      --accent: #e94560;
+      --light: #16213e;
+      --dark: #0d0d1a;
+      --success: #4ade80;
+      --warning: #fcd34d;
+      --info: #60a5fa;
+      --math: #9d4edd;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .logo-icon {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    nav a:hover, nav a.active {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .hero {
+      background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.8)), 
+                  url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920') center/cover;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--secondary);
+    }
+    
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      color: var(--text-primary);
+    }
+    
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto 1rem;
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+    
+    .breadcrumb a {
+      color: var(--info);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .breadcrumb a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+    }
+    
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .category-card {
+      background: rgba(30, 30, 46, 0.7);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--secondary);
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      background: rgba(30, 30, 46, 0.9);
+    }
+    
+    .category-header {
+      background: linear-gradient(135deg, var(--math) 0%, #7b2cbf 100%);
+      color: white;
+      padding: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .category-header h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .category-content {
+      padding: 1.2rem;
+    }
+    
+    .courses-list {
+      list-style: none;
+    }
+    
+    .course-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--secondary);
+      display: flex;
+      align-items: center;
+    }
+    
+    .course-item:last-child {
+      border-bottom: none;
+    }
+    
+    .course-number {
+      background: var(--math);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    
+    .course-link {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: block;
+      width: 100%;
+    }
+    
+    .course-link:hover {
+      color: var(--accent);
+    }
+    
+    .course-link i {
+      margin-left: 5px;
+      font-size: 0.9rem;
+      color: var(--info);
+    }
+    
+    .info-box {
+      background: rgba(30, 30, 46, 0.7);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin: 2rem 0;
+      border-left: 4px solid var(--success);
+      border: 1px solid var(--secondary);
+    }
+    
+    .info-box h3 {
+      color: var(--success);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 2rem 1rem;
+      text-align: center;
+      border-top: 1px solid var(--secondary);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .university-motto {
+      font-style: italic;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+    }
+    
+    /* Wave animation for footer */
+    .wave-animation {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" fill="%23e9456040"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" /></svg>');
+      background-size: 1200px 100px;
+      animation: wave 12s linear infinite;
+    }
+    
+    @keyframes wave {
+      0% { background-position-x: 0; }
+      100% { background-position-x: 1200px; }
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .categories {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-graduation-cap logo-icon"></i>
+        <h1>TruthSeekers</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+          <li><a href="#" class="active"><i class="fas fa-map"></i> Mapa</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Carreras</a></li>
+          <li><a href="#"><i class="fas fa-sitemap"></i> Nodo Raíz</a></li>
+          <li><a href="#"><i class="fas fa-tools"></i> Recursos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="wave-animation"></div>
+    <h2>Mapa Curricular de Ingeniería Informática</h2>
+    <p>Explora el plan de estudios completo con enlaces directos a cada curso y sus recursos asociados</p>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="#">Inicio</a> / <a href="#">Carreras</a> / <span>Ingeniería Informática</span>
+  </div>
+
+  <main>
+    <div class="info-box">
+      <h3><i class="fas fa-info-circle"></i> Cómo usar este mapa</h3>
+      <p>Cada categoría representa un área de conocimiento. Haz clic en el título para expandir/contraer los cursos. Los cursos con enlaces te llevarán a su página específica con recursos, bibliografía y más información relevante.</p>
+    </div>
+
+    <div class="categories">
+      <!-- Fundamentos Matemáticos -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-calculator"></i> FUNDAMENTOS MATEMÁTICOS</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="algebra.html" class="course-link">Álgebra <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="taller-algebra.html" class="course-link">Taller de Álgebra <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="calculo-diferencial.html" class="course-link">Cálculo Diferencial <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="taller-calculo-diferencial.html" class="course-link">Taller de Cálculo Diferencial <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="calculo-integral.html" class="course-link">Cálculo Integral <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">6</div>
+              <a href="calculo-multivariable.html" class="course-link">Cálculo Multivariable <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">7</div>
+              <a href="algebra-lineal.html" class="course-link">Álgebra Lineal <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">8</div>
+              <a href="ecuaciones-diferenciales.html" class="course-link">Ecuaciones Diferenciales <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">9</div>
+              <a href="taller-edo.html" class="course-link">Taller de EDO <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">10</div>
+              <a href="estadistica.html" class="course-link">Estadística <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">11</div>
+              <a href="inferencia-modelos-estadisticos.html" class="course-link">Inferencia y Modelos Estadísticos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">12</div>
+              <a href="investigacion-operaciones.html" class="course-link">Investigación de Operaciones <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Ciencia Básica -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-flask"></i> CIENCIA BÁSICA</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="fisica-general.html" class="course-link">Física General (Mecánica) <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="ondas.html" class="course-link">Ondas <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="electromagnetismo.html" class="course-link">Electromagnetismo <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="quimica.html" class="course-link">Química <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Programación y Desarrollo de Software -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-laptop-code"></i> PROGRAMACIÓN Y DESARROLLO DE SOFTWARE</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="programacion-inicial.html" class="course-link">Programación Inicial <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="programacion-estructurada.html" class="course-link">Programación Estructurada <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="estructura-datos.html" class="course-link">Estructura de Datos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="programacion-avanzada.html" class="course-link">Programación Avanzada <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="orientacion-objetos.html" class="course-link">Orientación a Objetos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">6</div>
+              <a href="programacion-web.html" class="course-link">Programación Web <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">7</div>
+              <a href="tecnologias-web.html" class="course-link">Tecnologías Web <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">8</div>
+              <a href="analisis-diseno-software.html" class="course-link">Análisis y Diseño de Software <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">9</div>
+              <a href="arquitectura-calidad-sw.html" class="course-link">Arquitectura y Calidad de SW <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">10</div>
+              <a href="procesos-desarrollo.html" class="course-link">Procesos de Desarrollo <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">11</div>
+              <a href="gestion-desarrollo.html" class="course-link">Gestión de Desarrollo <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sistemas, Bases de Datos y Redes -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-database"></i> SISTEMAS, BASES DE DATOS Y REDES</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="modelamiento-base-datos.html" class="course-link">Modelamiento de Base de Datos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="sistemas-base-datos.html" class="course-link">Sistemas de Base de Datos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="sistemas-operativos-redes.html" class="course-link">Sistemas Operativos y Redes <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="sistemas-distribuidos.html" class="course-link">Sistemas Distribuidos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="seguridad-informatica.html" class="course-link">Seguridad Informática <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Inteligencia Computacional -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-brain"></i> INTELIGENCIA COMPUTACIONAL</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="inteligencia-artificial.html" class="course-link">Inteligencia Artificial <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="aprendizaje-automatico.html" class="course-link">Aprendizaje Automático <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="big-data.html" class="course-link">Big Data <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="iot.html" class="course-link">Internet de las Cosas (IoT) <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="topicos-avanzados.html" class="course-link">Tópicos Avanzados I y II <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Gestión, Negocios y Legislación -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-chart-line"></i> GESTIÓN, NEGOCIOS Y LEGISLACIÓN</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="contabilidad-finanzas.html" class="course-link">Contabilidad y Finanzas <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="ingenieria-economica.html" class="course-link">Ingeniería Económica <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="formulacion-evaluacion-proyectos.html" class="course-link">Formulación y Evaluación de Proyectos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="inteligencia-negocios.html" class="course-link">Inteligencia de Negocios <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="legislacion-informatica.html" class="course-link">Legislación Informática <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Práctica y Síntesis -->
+      <div class="category-card">
+        <div class="category-header">
+          <h3><i class="fas fa-briefcase"></i> PRÁCTICA Y SÍNTESIS</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="category-content">
+          <ul class="courses-list">
+            <li class="course-item">
+              <div class="course-number">1</div>
+              <a href="gestion-proyectos-informaticos.html" class="course-link">Gestión de Proyectos Informáticos <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">2</div>
+              <a href="practica-inicial.html" class="course-link">Práctica Inicial <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">3</div>
+              <a href="practica-avanzada.html" class="course-link">Práctica Avanzada <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">4</div>
+              <a href="antetesis.html" class="course-link">Antetesis <i class="fas fa-external-link-alt"></i></a>
+            </li>
+            <li class="course-item">
+              <div class="course-number">5</div>
+              <a href="trabajo-sintesis-profesional.html" class="course-link">Trabajo de Síntesis Profesional <i class="fas fa-external-link-alt"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>TruthSeekers © 2025 — Camino autodidacta sin jerarquías</p>
+      <p class="university-motto">"El conocimiento es la verdadera riqueza que se multiplica al compartirse"</p>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle para expandir/contraer las categorías
+    document.querySelectorAll('.category-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.fa-chevron-down');
+        
+        if (content.style.display === 'none' || !content.style.display) {
+          content.style.display = 'block';
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+        } else {
+          content.style.display = 'none';
+          icon.classList.remove('fa-chevron-up');
+          icon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+    
+    // Mostrar la primera categoría expandida por defecto
+    document.querySelector('.category-content').style.display = 'block';
+    document.querySelector('.category-header .fa-chevron-down').classList.replace('fa-chevron-down', 'fa-chevron-up');
+  </script>
+</body>
+</html>
